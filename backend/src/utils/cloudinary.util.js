@@ -14,7 +14,7 @@ const cloudinaryUpload = async (
   filePath,
   resourceType = 'auto',
   quality = 90,
-  folder = 'Study-Again'
+  folder = 'Social-Media-Assingment'
 ) => {
   try {
     const uploadResponse = await v2.uploader.upload(filePath, {
