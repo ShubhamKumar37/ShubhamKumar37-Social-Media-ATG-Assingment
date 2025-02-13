@@ -60,9 +60,9 @@ const getAllPost = asyncHandler(async (req, res) => {
       },
     ]);
 
-  if (!getAllPost) throw new ApiError(404, 'Post not found');
+  // if (allPost.length === 0) throw new ApiError(404, 'Post not found');
 
-  for (let i of getAllPost) {
+  for (let i of allPost) {
     const likeCount = await Like.countDocuments({ post: i._id });
     i.likeCount = likeCount;
   }

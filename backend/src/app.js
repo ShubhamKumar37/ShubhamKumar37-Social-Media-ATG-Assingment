@@ -15,9 +15,9 @@ app.use(cookieParser());
 app.use(express.json());
 app.use(express.static('public'));
 
-userRoute.use('/api/v1/user', userRoute);
-commentRoute.use('/api/v1/comment', commentRoute);
-postRoute.use('/api/v1/post', postRoute);
+app.use('/api/v1/user', userRoute);
+app.use('/api/v1/comment', commentRoute);
+app.use('/api/v1/post', postRoute);
 
 app.get('/', (_, res) => res.send('Hello World!'));
 

@@ -16,7 +16,7 @@ const resetPasswordToken = asyncHandler(async (req, res) => {
 
   const passToken = crypto.randomUUID();
 
-  const updateUserDetail = await User.find(
+  const updateUserDetail = await User.findOneAndUpdate(
     { email },
     {
       $set: {
@@ -40,7 +40,8 @@ const resetPasswordToken = asyncHandler(async (req, res) => {
     .json(
       new ApiResponse(
         200,
-        'Password reset link sent successfully to your mail (check spam too)'
+        'Password reset link sent successfully to your mail (check spam too)',
+        passToken
       )
     );
 });

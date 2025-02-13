@@ -10,11 +10,11 @@ const cookieOptions = {
 };
 
 const sendOtp = asyncHandler(async (req, res) => {
-  const { email } = req.body();
+  const { email } = req.body;
   if (!email || !email.trim()) throw new ApiError(400, 'Email is required');
 
   const userExist = await User.findOne({ email });
-  if (!userExist) throw new ApiError(404, 'User not found');
+  if (userExist) throw new ApiError(404, 'User already exist');
 
   const otp = otpGenerate.generate(6, { upperCase: true, specialChars: true });
   const createOtp = await OTP.create({ email, otp });
@@ -35,10 +35,10 @@ const loginUser = asyncHandler(async (req, res) => {
     throw new ApiError(400, 'Password is required');
 
   const userExist = await User.findOne({ userName }).select(
-    '-password -passwordResetToken -passwordTokenExpiry'
+    '-passwordResetToken -passwordTokenExpiry'
   );
 
-  if (!userExist) throw new ApiError(401, 'Invalid credentials');
+  if (!userExist) throw new ApiError(401, 'User does not exist');
 
   const isPasswordCorrect = await userExist.isPasswordCorrect(password);
   if (!isPasswordCorrect) throw new ApiError(401, 'Invalid credentials');
@@ -49,12 +49,14 @@ const loginUser = asyncHandler(async (req, res) => {
       avatar: userExist.avatar,
       email: userExist.email,
     },
+    process.env.JWT_SECRET,
     { expiresIn: '1d' }
   );
 
   userExist.token = token;
 
   await userExist.save();
+  userExist.password = undefined;
 
   res.cookie('token', token, cookieOptions);
   return res
