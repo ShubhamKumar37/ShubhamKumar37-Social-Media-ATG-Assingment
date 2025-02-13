@@ -5,9 +5,7 @@ export const auth = asyncHandler(async (req, res, next) => {
   const token =
     req.cookies.token ||
     req.body.token ||
-    (req && req.header && req.header('Authorization'))
-      ? req.header('Authorization').replace('Bearer ', '')
-      : null;
+    req.header('Authorization').replace('Bearer ', '');
   if (!token)
     return res
       .status(401)

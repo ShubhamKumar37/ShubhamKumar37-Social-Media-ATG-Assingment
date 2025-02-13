@@ -12,16 +12,16 @@ import { auth } from '../middlewares/auth.middleware.js';
 
 const postRoute = Router();
 
-postRoute.get('/', getAllPost);
-postRoute.get('/:postId', getPost);
-postRoute.post('/', auth, upload.single('thumbnail'), createPost);
+postRoute.get('/', getAllPost); // Working
+postRoute.get('/:postId', getPost); // Working
+postRoute.post('/', auth, upload.single('thumbnail'), createPost); // Working
 postRoute.patch(
   '/:postId',
   auth,
   upload.single('thumbnail'),
   updatePostThumbnail
-);
-postRoute.put('/:postId', auth, updatePostContent);
-postRoute.delete('/:postId', auth, deletePost);
+); // Working
+postRoute.put('/:postId', auth, updatePostContent); // Working
+postRoute.delete('/:postId', auth, deletePost); // Working
 
 export default postRoute;

@@ -11,9 +11,9 @@ const commentRoute = Router();
 
 commentRoute.use(auth);
 
-commentRoute.post('/', createComment);
-commentRoute.delete('/', deleteComment);
-commentRoute.put('/', updateComment);
-commentRoute.patch('/', toggleLike);
+commentRoute.post('/:postId', createComment); // Working
+commentRoute.delete('/:commentId', deleteComment); // Working
+commentRoute.put('/:commentId', updateComment); // Working
+commentRoute.patch('/:postId', toggleLike); // Working
 
 export default commentRoute;

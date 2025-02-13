@@ -20,10 +20,17 @@ const getPost = asyncHandler(async (req, res) => {
 
   if (!postId || !postId.trim()) throw new ApiError(400, 'Post id is required');
 
-  const postExist = await Post.findById(postId).populate({
-    path: 'owner',
-    select: 'userName avatar',
-  });
+  const post = await Post.findById(postId)
+    .populate({
+      path: 'owner',
+      select: 'userName avatar',
+    })
+    .lean()
+    .select('-comment');
+
+  if (!post) throw new ApiError(404, 'Post not found');
+
+  const commentsCount = await Comment.countDocuments({ post: postId });
 
   const comments = await Comment.find({ post: postId })
     .limit(limit)
@@ -32,18 +39,16 @@ const getPost = asyncHandler(async (req, res) => {
       path: 'owner',
       select: 'userName avatar',
     });
-  const commentsCount = await Comment.countDocuments({ post: postId });
-  postExist.comments = comments;
-  postExist.commentsCount = commentsCount;
 
-  if (!postExist) throw new ApiError(404, 'Post not found');
+  post.comments = comments;
+  post.commentsCount = commentsCount;
 
-  const likeCount = await Like.countDocuments({ post: postExist._id });
-  postExist.likeCount = likeCount;
+  const likeCount = await Like.countDocuments({ post: postId });
+  post.likeCount = likeCount;
 
   return res
     .status(200)
-    .json(new ApiResponse(200, 'Post found successfully', postExist));
+    .json(new ApiResponse(200, 'Post found successfully', post));
 });
 
 const getAllPost = asyncHandler(async (req, res) => {
@@ -58,18 +63,20 @@ const getAllPost = asyncHandler(async (req, res) => {
         path: 'owner',
         select: 'userName avatar',
       },
-    ]);
+    ])
+    .lean();
 
-  // if (allPost.length === 0) throw new ApiError(404, 'Post not found');
-
-  for (let i of allPost) {
-    const likeCount = await Like.countDocuments({ post: i._id });
-    i.likeCount = likeCount;
-  }
+  const allPostWithLike = await Promise.all(
+    allPost.map(async (item) => {
+      const likeCount = (await Like.countDocuments({ post: item._id })) || 0;
+      item.likeCount = likeCount;
+      return item;
+    })
+  );
 
   return res
     .status(200)
-    .json(new ApiResponse(200, 'All Post found successfully', allPost));
+    .json(new ApiResponse(200, 'All Post found successfully', allPostWithLike));
 });
 
 const createPost = asyncHandler(async (req, res) => {
