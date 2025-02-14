@@ -16,7 +16,13 @@ const sendOtp = asyncHandler(async (req, res) => {
   const userExist = await User.findOne({ email });
   if (userExist) throw new ApiError(404, 'User already exist');
 
-  const otp = otpGenerate.generate(6, { upperCase: true, specialChars: true });
+  const otp = otpGenerate.generate(6, {
+    lowerCaseAlphabets: false,
+    upperCaseAlphabets: false,
+    specialChars: false,
+  });
+
+
   const createOtp = await OTP.create({ email, otp });
 
   createOtp.message = 'Just remove the otp when in production';
@@ -66,25 +72,22 @@ const loginUser = asyncHandler(async (req, res) => {
 
 const signupUser = asyncHandler(async (req, res) => {
   const { userName, email, password, otp } = req.body;
+  const avatar = `https://api.dicebear.com/5.x/initials/svg?seed=${userName}`
 
-  if (!userName || !userName.trim())
-    throw new ApiError(400, 'Username is required');
+  if (!userName || !userName.trim()) throw new ApiError(400, 'Username is required');
   if (!email || !email.trim()) throw new ApiError(400, 'Email is required');
-  if (!password || !password.trim())
-    throw new ApiError(400, 'Password is required');
+  if (!password || !password.trim()) throw new ApiError(400, 'Password is required');
   if (!otp || !otp.trim()) throw new ApiError(400, 'OTP is required');
 
   const userEmailExist = await User.findOne({ email });
   const userNameExist = await User.findOne({ userName });
-  const otpExist = await OTP.findOne({ email, otp })
-    .sort({ createdAt: -1 })
-    .limit(1);
+  const otpExist = await OTP.findOne({ email, otp }).sort({ createdAt: -1 });
 
   if (userEmailExist) throw new ApiError(400, 'Email already exist');
   if (userNameExist) throw new ApiError(400, 'Username already exist');
   if (!otpExist) throw new ApiError(400, 'Invalid OTP or OTP has expired');
-
-  const user = await User.create({ userName, email, password });
+  console.log("This is the otp", otpExist);
+  const user = await User.create({ userName, email, password, avatar});
 
   return res
     .status(200)

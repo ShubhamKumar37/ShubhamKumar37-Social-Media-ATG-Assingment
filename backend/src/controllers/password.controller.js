@@ -21,7 +21,7 @@ const resetPasswordToken = asyncHandler(async (req, res) => {
     {
       $set: {
         passwordResetToken: passToken,
-        passwordTokenExpiry: Date.now() + 5 * 60 * 1000,
+        passwordTokenExpiry: Date.now() + 60 * 60 * 1000,
       },
     },
     { new: true }
@@ -32,7 +32,7 @@ const resetPasswordToken = asyncHandler(async (req, res) => {
   await mailSender(
     email,
     'Password Reset Link',
-    `<a href="${process.env.CLIENT_URL}/reset-password?token=${passToken}" target="_blank">Reset Password</a>`
+    `<a href="${process.env.CLIENT_URL}/reset-password/${passToken}" target="_blank">Reset Password</a>`
   );
 
   return res
@@ -47,18 +47,17 @@ const resetPasswordToken = asyncHandler(async (req, res) => {
 });
 
 const resetPassword = asyncHandler(async (req, res) => {
-  const { token } = req.params || req.body;
-  const { password } = req.body;
+  const { password, token } = req.body;
 
-  if (!token || !token.trim()) throw new ApiError(400, 'Token is required');
+  if (!token) throw new ApiError(400, 'Token is required');
   if (!password || !password.trim())
     throw new ApiError(400, 'Password is required');
 
-  const userExist = await User.findOne({ passwordResetToken: token }).select(
-    '-password'
-  );
-  if (userExist.passwordTokenExpiry < Date.now())
+  const userExist = await User.findOne({ passwordResetToken: token });
+
+  if (!userExist || userExist.passwordTokenExpiry < Date.now())
     throw new ApiError(400, 'Token has expired');
+
 
   userExist.password = password;
   userExist.passwordResetToken = null;

@@ -15,6 +15,6 @@ userRoute.post('/', signupUser); // Working
 userRoute.put('/', loginUser); // Working
 userRoute.delete('/', auth, logoutUser); // Workging
 userRoute.post('/reset-password', resetPasswordToken);
-userRoute.put('/reset-password/:token', resetPassword);
+userRoute.put('/reset-password', resetPassword);
 userRoute.post('/send-otp', sendOtp); // Working
 export default userRoute;

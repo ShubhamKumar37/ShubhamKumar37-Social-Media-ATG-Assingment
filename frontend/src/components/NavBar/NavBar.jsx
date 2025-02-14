@@ -1,55 +1,66 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { logoutUser } from "../../service";
 
 const NavBar = () => {
-    const token = null;
-    const userData = null;
+  const token = useSelector((state) => state.auth.token);
+  const userData = useSelector((state) => state.user.userData);
+  const avatar = useSelector((state) => state.user.avatar);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-    return (
-        <nav className="bg-blue-600 py-3 px-[3rem] flex justify-between items-center">
-            <Link to="/" className="text-white font-bold text-xl">
-                PoShare
-            </Link>
-            <div className='flex gap-5 items-center'>
-                {token && (
-                    <button
-                        className="text-white px-4 py-2 mr-2 bg-blue-700 rounded hover:bg-blue-800 transition duration-300"
-                    // onClick={() => dispatch(logout(navigate))}
-                    >
-                        Logout
-                    </button>
-                )}
-                {token && (
-                    <Link to="/dashboard" className="text-white rounded hover:bg-blue-700 p-2 transition duration-300">
-                        <div>
-                            <img
-                                src={userData?.profilePicture?.url || `https://api.dicebear.com/5.x/initials/svg?seed=${userData?.name}`}
-                                alt="User Profile"
-                                className="w-12 h-12 border-2 border-blue-700 rounded-full"
-                            />
-                        </div>
-                    </Link>
-                )}
-
-                {!token && (
-                    <Link
-                        to="/login"
-                        className="text-white px-4 py-2 mr-2 bg-blue-700 rounded hover:bg-blue-800 transition duration-300"
-                    >
-                        Login
-                    </Link>
-                )}
-                {!token && (
-                    <Link
-                        to="/signup"
-                        className="text-white px-4 py-2 bg-blue-700 rounded hover:bg-blue-800 transition duration-300"
-                    >
-                        Sign Up
-                    </Link>
-                )}
+  return (
+    <nav className='flex items-center justify-between bg-blue-600 px-[3rem] py-3'>
+      <Link to='/' className='text-xl font-bold text-white'>
+        PoShare
+      </Link>
+      <div className='flex items-center gap-5'>
+        {token && (
+          <button
+            className='mr-2 rounded bg-blue-700 px-4 py-2 text-white transition duration-300 hover:bg-blue-800'
+            onClick={() => dispatch(logoutUser(navigate))}
+          >
+            Logout
+          </button>
+        )}
+        {token && (
+          <Link
+            to='/'
+            className='rounded p-2 text-white transition duration-300 hover:bg-blue-700'
+          >
+            <div>
+              <img
+                src={
+                  avatar ||
+                  `https://api.dicebear.com/5.x/initials/svg?seed=${userData?.name}`
+                }
+                alt='User Profile'
+                className='h-12 w-12 rounded-full border-2 border-blue-700'
+              />
             </div>
-        </nav>
-    )
-}
+          </Link>
+        )}
 
-export default NavBar
+        {!token && (
+          <Link
+            to='/login'
+            className='mr-2 rounded bg-blue-700 px-4 py-2 text-white transition duration-300 hover:bg-blue-800'
+          >
+            Login
+          </Link>
+        )}
+        {!token && (
+          <Link
+            to='/signup'
+            className='rounded bg-blue-700 px-4 py-2 text-white transition duration-300 hover:bg-blue-800'
+          >
+            Sign Up
+          </Link>
+        )}
+      </div>
+    </nav>
+  );
+};
+
+export default NavBar;

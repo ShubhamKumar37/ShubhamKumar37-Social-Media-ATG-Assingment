@@ -2,10 +2,18 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
+import { Provider } from "react-redux";
 import reportWebVitals from "./reportWebVitals";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { AuthPage, HomePage } from "./import";
-import { OTPForm, PageNotFound, ResetPassword } from "./components";
+import {
+  ForgetPassword,
+  OTPForm,
+  PageNotFound,
+  ResetPassword,
+} from "./components";
+import { Toaster } from "react-hot-toast";
+import { store } from "./redux/store";
 
 const route = createBrowserRouter([
   {
@@ -15,8 +23,9 @@ const route = createBrowserRouter([
       { index: true, element: <HomePage /> },
       { path: "/signup", element: <AuthPage flag={false} /> },
       { path: "/login", element: <AuthPage flag={true} /> },
+      { path: "/forget-password", element: <ForgetPassword /> },
       { path: "/reset-password/:token", element: <ResetPassword /> },
-      { path: "/otp", element: <OTPForm /> },
+      { path: "/verify-email", element: <OTPForm /> },
       { path: "*", element: <PageNotFound /> },
     ],
   },
@@ -25,7 +34,10 @@ const route = createBrowserRouter([
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <RouterProvider router={route} />
+    <Provider store={store}>
+      <Toaster />
+      <RouterProvider router={route} />
+    </Provider>
   </React.StrictMode>
 );
 

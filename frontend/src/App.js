@@ -1,6 +1,6 @@
-import React from 'react'
-import { NavBar } from './components'
-import { Outlet } from 'react-router-dom'
+import React from "react";
+import { NavBar } from "./components";
+import { Outlet } from "react-router-dom";
 
 const App = () => {
   return (
@@ -8,7 +8,7 @@ const App = () => {
       <NavBar />
       <Outlet />
     </div>
-  )
-}
+  );
+};
 
-export default App
+export default App;

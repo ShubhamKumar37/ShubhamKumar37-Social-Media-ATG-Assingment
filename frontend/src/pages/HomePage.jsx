@@ -1,9 +1,13 @@
-import React from 'react'
+import React from "react";
+import { AllPost } from "../components";
 
 const HomePage = () => {
   return (
-    <div>HomePage</div>
-  )
-}
+    <div>
+      <h1>HomePage</h1>
+      <AllPost />
+    </div>
+  );
+};
 
-export default HomePage
+export default HomePage;

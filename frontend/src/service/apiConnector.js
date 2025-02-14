@@ -2,7 +2,7 @@ import axios from "axios";
 
 const axiosInstance = axios.create({ withCredentials: true });
 
-const apiConnector = (method, url, data, params, headers) => {
+const apiCall = (method, url, data, params, headers) => {
   return axiosInstance({
     method,
     url,
@@ -12,4 +12,4 @@ const apiConnector = (method, url, data, params, headers) => {
   });
 };
 
-export { apiConnector };
+export { apiCall };
