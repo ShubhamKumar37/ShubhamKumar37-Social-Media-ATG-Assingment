@@ -11,14 +11,14 @@ export const postApis = {
   GET_ALL_POST: "/post",
   GET_POST: "/post",
   CREATE_POST: "/post",
-  UPDATE_POST_THUMBNAIL: "/post/:postId",
-  UPDATE_POST_CONTENT: "/post/:postId",
-  DELETE_POST: "/post/:postId",
+  UPDATE_POST_THUMBNAIL: "/post",
+  UPDATE_POST_CONTENT: "/post",
+  DELETE_POST: "/post",
 };
 
 export const commentApis = {
-  CREATE_COMMENT: "/comment/:postId",
-  DELETE_COMMENT: "/comment/:commentId",
-  UPDATE_COMMENT: "/comment/:commentId",
-  TOGGLE_LIKE: "/comment/:postId",
+  CREATE_COMMENT: "/comment",
+  DELETE_COMMENT: "/comment",
+  UPDATE_COMMENT: "/comment",
+  TOGGLE_LIKE: "/comment",
 };

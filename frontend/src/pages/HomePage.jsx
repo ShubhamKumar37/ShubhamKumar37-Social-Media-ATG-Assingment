@@ -4,7 +4,6 @@ import { AllPost } from "../components";
 const HomePage = () => {
   return (
     <div>
-      <h1>HomePage</h1>
       <AllPost />
     </div>
   );

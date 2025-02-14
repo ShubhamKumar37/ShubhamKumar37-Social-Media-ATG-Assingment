@@ -9,6 +9,8 @@ import ForgetPassword from "./Auth/ForgetPassword";
 import ResetPassword from "./Auth/ResetPassword";
 import AllPost from "./Post/AllPost";
 import Post from "./Post/Post";
+import CreatePost from "./Post/CreatePost";
+import UpdatePost from "./Post/UpdatePost";
 
 export {
   NavBar,
@@ -22,4 +24,6 @@ export {
   ResetPassword,
   AllPost,
   Post,
+  CreatePost,
+  UpdatePost,
 };

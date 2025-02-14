@@ -54,6 +54,7 @@ const getPost = asyncHandler(async (req, res) => {
 const getAllPost = asyncHandler(async (req, res) => {
   const limit = parseInt(req.query.limit) || 20;
   const skip = parseInt(req.query.skip) || 0;
+  const { userId } = req.query;
 
   const allPost = await Post.find({})
     .limit(limit)
@@ -64,19 +65,29 @@ const getAllPost = asyncHandler(async (req, res) => {
         select: 'userName avatar',
       },
     ])
+    .sort({ createdAt: -1 })
     .lean();
 
   const allPostWithLike = await Promise.all(
     allPost.map(async (item) => {
       const likeCount = (await Like.countDocuments({ post: item._id })) || 0;
+
+      let userLiked = false;
+      if (userId) {
+        userLiked = await Like.findOne({ owner: userId, post: item._id });
+      }
+      
+
       item.likeCount = likeCount;
+      if (userLiked) item.liked = true;
+      else item.liked = false;
       return item;
     })
   );
 
   return res
     .status(200)
-    .json(new ApiResponse(200, 'All Post found successfully', allPostWithLike));
+    .json(new ApiResponse(200, 'All posts found successfully', allPostWithLike));
 });
 
 const createPost = asyncHandler(async (req, res) => {

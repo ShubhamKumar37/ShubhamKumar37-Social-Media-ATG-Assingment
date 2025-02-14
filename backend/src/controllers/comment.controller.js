@@ -119,8 +119,8 @@ const toggleLike = asyncHandler(async (req, res) => {
   const like = await Like.findOneAndDelete({ owner: userId, post: postId });
   if (like) {
     return res
-      .status(200)
-      .json(new ApiResponse(200, 'Post unliked successfully'));
+      .status(201)
+      .json(new ApiResponse(201, 'Post unliked successfully'));
   }
   await Like.create({ owner: userId, post: postId });
   return res.status(200).json(new ApiResponse(200, 'Like added successfully'));

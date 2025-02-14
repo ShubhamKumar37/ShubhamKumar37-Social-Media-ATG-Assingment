@@ -1,4 +1,5 @@
 import { apiCall } from "./apiConnector";
+import { createComment, createPost } from "./operation/postApi";
 import {
   loginUser,
   logoutUser,
@@ -14,4 +15,6 @@ export {
   apiCall,
   resetPasswordToken,
   resetPassword,
+  createPost,
+  createComment,
 };

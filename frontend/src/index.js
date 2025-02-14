@@ -7,13 +7,16 @@ import reportWebVitals from "./reportWebVitals";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { AuthPage, HomePage } from "./import";
 import {
+  CreatePost,
   ForgetPassword,
   OTPForm,
   PageNotFound,
   ResetPassword,
+  UpdatePost,
 } from "./components";
 import { Toaster } from "react-hot-toast";
 import { store } from "./redux/store";
+
 
 const route = createBrowserRouter([
   {
@@ -26,10 +29,13 @@ const route = createBrowserRouter([
       { path: "/forget-password", element: <ForgetPassword /> },
       { path: "/reset-password/:token", element: <ResetPassword /> },
       { path: "/verify-email", element: <OTPForm /> },
+      { path: "/create-post", element: <CreatePost /> },
+      { path: "/edit-post/:postId", element: <UpdatePost /> },
       { path: "*", element: <PageNotFound /> },
     ],
   },
 ]);
+
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
