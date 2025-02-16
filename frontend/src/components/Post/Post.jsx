@@ -12,6 +12,7 @@ const { DELETE_COMMENT, TOGGLE_LIKE } = commentApis;
 
 const Post = ({ item }) => {
   const dispatch = useDispatch();
+  // console.log(item);
   const [liked, setLiked] = useState(item.liked || false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [allComments, setAllComments] = useState(null);
@@ -25,9 +26,9 @@ const Post = ({ item }) => {
     setLiked(!liked);
     try {
       const response = await apiCall("patch", `${TOGGLE_LIKE}/${item._id}`);
-      if (response.status === 200) {
+      if (response.status === 200 && !liked) {
         toast.success("Post liked");
-      } else if (response.status === 201) {
+      } else if (response.status === 201 && liked) {
         toast.success("Post unliked");
       } else {
         toast.error("Failed to like post");

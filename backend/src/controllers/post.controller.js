@@ -54,7 +54,7 @@ const getPost = asyncHandler(async (req, res) => {
 const getAllPost = asyncHandler(async (req, res) => {
   const limit = parseInt(req.query.limit) || 20;
   const skip = parseInt(req.query.skip) || 0;
-  const { userId } = req.query;
+  const { userId } = req.params;
 
   const allPost = await Post.find({})
     .limit(limit)
@@ -76,7 +76,7 @@ const getAllPost = asyncHandler(async (req, res) => {
       if (userId) {
         userLiked = await Like.findOne({ owner: userId, post: item._id });
       }
-      
+
 
       item.likeCount = likeCount;
       if (userLiked) item.liked = true;

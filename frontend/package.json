@@ -21,7 +21,7 @@
     "web-vitals": "^4.2.4"
   },
   "scripts": {
-    "start": "concurrently -n \"frontend,backend\" -c \"yellow.bold,green.bold\" \"react-scripts start\" \"cd ../backend && npm start\"",
+    "start": "concurrently -n \"frontend,backend\" -c \"yellow.bold,green.bold\" \"react-scripts start\" \"cd ../backend && npm run dev\"",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",

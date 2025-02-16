@@ -12,7 +12,7 @@ import { auth } from '../middlewares/auth.middleware.js';
 
 const postRoute = Router();
 
-postRoute.get('/', getAllPost); // Working
+postRoute.get('/:userId', getAllPost); // Working
 postRoute.get('/:postId', getPost); // Working
 postRoute.post('/', auth, upload.single('thumbnail'), createPost); // Working
 postRoute.patch(
