@@ -18,10 +18,9 @@ const AllPost = () => {
   useEffect(() => {
     const getAllPost = async () => {
       try {
-        const obj = new FormData();
-        if (userData) obj.append("userId", userData._id);
+        let userId = userData?._id || "5f1d7d7c081234567890abcd";
 
-        const response = await apiCall("get", `${GET_ALL_POST}/${userData._id || "5f1d7d7c081234567890abcd"}`);
+        const response = await apiCall("get", `${GET_ALL_POST}/${userId}`);
         setAllPosts(response.data.data);
       } catch (error) {
         toast.error("Server Error");
