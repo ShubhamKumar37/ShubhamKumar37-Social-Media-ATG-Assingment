@@ -21,13 +21,11 @@
     "web-vitals": "^4.2.4"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "concurrently -n \"frontend,backend\" -c \"yellow.bold,green.bold\" \"react-scripts start\" \"cd ../backend && npm start\"",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "format": "prettier --write .",
-    "backend": "cd ./../backend && npm run dev",
-    "dev": "concurrently -n /\"frontend,backend/\" -c /\"yellow.bold,green.bold/\" \"npm start\" \"cd ./../backend && npm run dev\""
+    "format": "prettier --write ."
   },
   "eslintConfig": {
     "extends": [

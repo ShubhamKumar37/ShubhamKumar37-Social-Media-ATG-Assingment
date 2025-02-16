@@ -5,7 +5,6 @@ import { Input } from "../index.js";
 import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { setSignupData } from "../../redux/slices/index.js";
 import { sendOtp } from "../../service/index.js";
 
 const SignupForm = () => {

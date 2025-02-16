@@ -70,7 +70,7 @@ const UpdatePost = () => {
         description: JSON.stringify(data.description),
       };
 
-      const response = await apiCall(
+      await apiCall(
         "put",
         `${UPDATE_POST_CONTENT}/${postId}`,
         updatedContent

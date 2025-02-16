@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import OtpInput from "react-otp-input";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { sendOtp } from "../../service";
 import { signupUser } from "../../service/operation/userApi";
 
 const OTPForm = () => {
